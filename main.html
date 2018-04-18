@@ -1,0 +1,132 @@
+<html>
+<head>
+<title> PU Elections </title>
+<style>
+body
+{
+	background-color: black;
+	text-align: center;
+}
+
+h1{
+	color: rgb(0,0,255);
+}
+.displaybox{
+	color: white;
+	margin: auto;
+	width: 150px;
+	border: 2px solid white;
+	padding: 10px;
+	align: center;
+	font: 1.5em normal verdana, helvetica, arial;
+	border-radius: 4px;
+}
+</style>
+<script>
+	var ajaxobject=new XMLHttpRequest();
+	var obj = new XMLHttpRequest();
+	var obj1;
+
+	function getCandidateList()
+		{
+	  if(!ajaxobject)
+	  {
+	  	document.getElementById("showcandidate").innerHTML="AJAX object could not be created";
+	  	return;
+	  }
+	  	  ajaxobject.open("GET","vote.php");
+	  	  ajaxobject.send();
+	  	  ajaxobject.onreadystatechange=getResponse;
+		}
+
+	function getResponse(){
+		if(ajaxobject.readyState == 4 && ajaxobject.status == 200)
+		{
+			document.getElementById('showcandidate').innerHTML=ajaxobject.responseText;
+		}
+		else
+		{
+			document.getElementById('showcandidate').innerHTML= ajaxobject.readyState+ajaxobject.status+ajaxobject.statusText;
+		}
+
+	}
+	var count = 0;
+	function changeColor()
+	{
+		count++;
+		var col="white";
+		if(count%2==0)
+			col="lightgreen";
+		else
+			col="lightblue";
+		document.getElementById('showcandidate').style.backgroundColor=col;
+	}
+	function makeItBold()
+	{
+		//document.getElementById('showcandidate').style.
+	}
+	function ajaxConfirm()
+	{
+	//	var voted_for = document.getElementById("myform").elements['candidate'].value;
+		//document.getElementById('selectedcandidate').innerHTML = voted_for;
+		document.getElementById('selectedcandidate').innerHTML = document.getElementById("sherlock1").elements['rad'].value;
+		//ajaxobject.open("GET", "update_vote.php?sel=" voted_for)
+	}
+
+
+function displayvalue1()
+{ var r = confirm ("Are you sure?");
+ if (r==1)
+ {
+	document.getElementById('selectedcandidate').innerHTML=document.getElementById('sherlock1').elements['rad'].value;
+ }
+	else
+ 	{
+ 	 document.getElementById('this').innerHTML="Not voted";
+ 	}
+
+}
+
+	function displayvalue()
+		{
+				alert ("confirmed");
+				obj1 = document.getElementById('sherlock1').elements['rad'].value;
+				obj.open("GET","DB.php?thejus="+obj1);
+				obj.send();
+		}
+
+</script>
+</head>
+
+
+	<body>
+		<h1 style="color: white;">List of Candidates for the post of CR</h1>
+		<h4 style="color: white;">Getting the list from the server</h4>
+
+		<form>
+			<input type="button" value="List the candidates" onclick="getCandidateList()"/>
+			<input type="button" value="Change color" onclick="changeColor()"/>
+		</form>
+
+		<div id="showcandidate" class="displaybox">
+		</div>
+		<br>
+		<form>
+			<input type="button" value="Submit" onclick="displayvalue1()">
+		</form>
+
+
+		<div id="selectedcandidate" class="displaybox">
+		</div>
+			<br>
+			<input type="button" name="button1" onclick="displayvalue();" value="vote"/>
+
+			<br>
+			<br>
+		<div class="footer" style="color:white">
+			LOGOUT
+		</div>
+
+		<div id='this'></div>
+	</body>
+</html>
